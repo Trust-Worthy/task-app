@@ -5,7 +5,11 @@
 import UIKit
 
 // The Task model
-struct Task {
+struct Task: Encodable {
+    
+    static var taskKey: String {
+        return "Tasks"
+    }
 
     // The task's title
     var title: String
@@ -55,9 +59,14 @@ extension Task {
 
 
     // Given an array of tasks, encodes them to data and saves to UserDefaults.
-    static func save(_ tasks: [Task]) {
+    static func save(_ tasks: [Task], forKey key: String) {
 
         // TODO: Save the array of tasks
+        let defaults = UserDefaults.standard
+        
+        let encodedData = try! JSONEncoder().encode(tasks)
+        
+        defaults.set(encodedData, forKey: key)
     }
 
     // Retrieve an array of saved tasks from UserDefaults.
